@@ -1,12 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-
-interface CarPageProps {
-  params: {
-    car: string;
-  };
-}
-
+ 
 async function getCarDetails(carId: string) {
   // TODO: Replace with actual API call or database query
   // This is just mock data for demonstration
@@ -24,8 +18,11 @@ async function getCarDetails(carId: string) {
   return cars[carId as keyof typeof cars];
 }
 
-export default async function CarPage({ params }: CarPageProps) {
-  const carDetails = await getCarDetails(params.car);
+export default async function CarPage({ params }: {
+    params: Promise<{ car: string }>
+  }) {
+  const {car} = await params;
+  const carDetails = await getCarDetails(car);
 
   if (!carDetails) {
     notFound();
