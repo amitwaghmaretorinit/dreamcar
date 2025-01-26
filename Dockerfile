@@ -8,7 +8,7 @@ WORKDIR /app
 # Install dependencies
 COPY package.json ./
 COPY package-lock.json* ./
-RUN npm install
+RUN npm install --frozen-lockfile || npm install
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -27,7 +27,8 @@ ENV NEXT_PUBLIC_SANITY_DATASET=$NEXT_PUBLIC_SANITY_DATASET
 RUN echo "Node version: $(node -v)" && \
     echo "NPM version: $(npm -v)" && \
     ls -la && \
-    npm run build || (cat .next/error.log || true && exit 1)
+    npm run build && \
+    ls -la .next/
 
 # Production image, copy all the files and run next
 FROM base AS runner
@@ -38,9 +39,10 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Copy only necessary files
 COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 USER nextjs
 
