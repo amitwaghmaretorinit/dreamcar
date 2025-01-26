@@ -1,27 +1,14 @@
 import Image from "next/image";
-import { groq } from 'next-sanity';
-import { client } from '@/sanity/lib/client';
 import { urlForImage } from '@/sanity/lib/image';
 import Link from 'next/link';
-
-async function getCars() {
-  const query = groq`*[_type == "car"]{
-    _id,
-    name,
-    price,
-    image,
-    "slug": slug.current,
-    company
-  }`
-  return await client.fetch<Car[]>(query);
-}
+import { getCars } from '@/lib/api'
 
 export const revalidate = 10; // Revalidate every 10 seconds
 
 export default async function Home() {
   const cars = await getCars();
    return (
-    <div className="min-h-screen p-8">
+    <div className="p-8">
       <main className="container mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-center">Featured Cars</h1>
         

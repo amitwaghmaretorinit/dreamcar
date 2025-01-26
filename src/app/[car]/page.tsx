@@ -1,31 +1,11 @@
-import { groq } from 'next-sanity'
-import { client } from '@/sanity/lib/client'
+import { getCarDetails, getAllCarSlugs } from '@/lib/api'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { urlForImage } from '@/sanity/lib/image'
- // ... existing code ...
-
-async function getCarDetails(slug: string): Promise<Car | null> {
-    const query = groq`*[_type == "car" && slug.current == $slug][0]{
-      _id,
-      name,
-      price,
-      range,
-      acceleration,
-      description,
-      company,
-      image
-    }`
-    
-    return await client.fetch<Car>(query, { slug });
-  }
-  
+ 
 
 export async function generateStaticParams() {
-  const query = groq`*[_type == "car"]{
-    "slug": slug.current
-  }`
-  const cars = await client.fetch(query)
+  const cars = await getAllCarSlugs()
   return cars.map((car: { slug: string }) => ({
     car: car.slug,
   }))
@@ -36,7 +16,7 @@ export const revalidate = 10 // Revalidate every hour
 export default async function CarPage({ params }: {
     params: { car: string }
   }) {
-  const {car} = await params;
+  const {car} = params
   const carDetails = await getCarDetails(car)
 
   if (!carDetails) {

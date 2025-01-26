@@ -28,8 +28,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider>
-          <div className="min-h-screen">
-            <div className="container mx-auto px-4">
+          <div className="flex min-h-screen flex-col">
+            <div className="container mx-auto flex-1 px-4">
               <div className="flex justify-end py-4">
                 <ThemeToggle />
               </div>
