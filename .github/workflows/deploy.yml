@@ -35,7 +35,6 @@ jobs:
           docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}:${{ github.sha }} \
             --build-arg NEXT_PUBLIC_SANITY_PROJECT_ID=${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }} \
             --build-arg NEXT_PUBLIC_SANITY_DATASET=${{ secrets.NEXT_PUBLIC_SANITY_DATASET }} \
-            --build-arg NEXT_PUBLIC_SANITY_API_VERSION=${{ secrets.NEXT_PUBLIC_SANITY_API_VERSION }} \
             .
           docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}:${{ github.sha }}
 
