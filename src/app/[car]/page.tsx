@@ -16,7 +16,7 @@ export const revalidate = 10 // Revalidate every hour
 export default async function CarPage({ params }: {
     params: { car: string }
   }) {
-  const {car} = params
+  const {car} = await params
   const carDetails = await getCarDetails(car)
 
   if (!carDetails) {
