@@ -24,11 +24,14 @@ ENV NEXT_PUBLIC_SANITY_PROJECT_ID=$NEXT_PUBLIC_SANITY_PROJECT_ID
 ENV NEXT_PUBLIC_SANITY_DATASET=$NEXT_PUBLIC_SANITY_DATASET
 ENV NEXT_TELEMETRY_DISABLED 1
 
-# Debug and build
-RUN echo "Node version: $(node -v)" && \
-    echo "NPM version: $(npm -v)" && \
-    npm run build
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry during the build.
+ENV NEXT_TELEMETRY_DISABLED 1
 
+RUN npm run build
+
+# Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
@@ -40,7 +43,7 @@ RUN adduser --system --uid 1001 nextjs
 
 # Copy necessary files
 COPY --from=builder /app/public ./public
-# COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
 USER nextjs
@@ -51,5 +54,4 @@ ENV HOSTNAME "0.0.0.0"
 
 EXPOSE 8080
 
-# Start the server using the standalone output
 CMD ["node", "server.js"]
