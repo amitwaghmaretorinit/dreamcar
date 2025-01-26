@@ -63,7 +63,7 @@ export default async function CarPage({ params }: {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
-            <div className="bg-white p-4 rounded-lg shadow text-gray-800">
+            <div className="bg-white p-4 rounded-lg shadow">
               <h2 className="text-xl font-semibold mb-2">Specifications</h2>
               <ul className="space-y-2">
                 <li><span className="font-medium">Model:</span> {carDetails.model}</li>
