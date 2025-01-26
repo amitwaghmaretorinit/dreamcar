@@ -19,3 +19,23 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+h1 {
+  @apply text-black text-4xl font-bold;
+}
+
+h2 {
+  @apply text-black text-3xl font-semibold;
+}
+
+h3 {
+  @apply text-black text-2xl font-semibold;
+}
+
+p {
+  @apply text-black;
+}
+
+a {
+  @apply text-black hover:underline;
+}
