@@ -23,7 +23,11 @@ ARG NEXT_PUBLIC_SANITY_DATASET
 ENV NEXT_PUBLIC_SANITY_PROJECT_ID=$NEXT_PUBLIC_SANITY_PROJECT_ID
 ENV NEXT_PUBLIC_SANITY_DATASET=$NEXT_PUBLIC_SANITY_DATASET
 
-RUN npm run build
+# Debug information and build
+RUN echo "Node version: $(node -v)" && \
+    echo "NPM version: $(npm -v)" && \
+    ls -la && \
+    npm run build || (cat .next/error.log || true && exit 1)
 
 # Production image, copy all the files and run next
 FROM base AS runner
