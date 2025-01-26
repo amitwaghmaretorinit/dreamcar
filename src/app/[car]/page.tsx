@@ -14,7 +14,7 @@ export async function generateStaticParams() {
 export const revalidate = 10 // Revalidate every hour
 
 export default async function CarPage({ params }: {
-    params: { car: string }
+    params: Promise<{ car: string }>
   }) {
   const {car} = await params
   const carDetails = await getCarDetails(car)
