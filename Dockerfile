@@ -1,3 +1,4 @@
+# Use Node 18 as the base image
 FROM node:18-alpine AS base
 
 # Install dependencies only when needed
@@ -5,10 +6,9 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Install dependencies
-COPY package.json ./
-COPY package-lock.json* ./
-RUN npm install --frozen-lockfile || npm install
+# Copy package.json and package-lock.json (if available)
+COPY package.json package-lock.json* ./
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -24,11 +24,7 @@ ENV NEXT_PUBLIC_SANITY_PROJECT_ID=$NEXT_PUBLIC_SANITY_PROJECT_ID
 ENV NEXT_PUBLIC_SANITY_DATASET=$NEXT_PUBLIC_SANITY_DATASET
 ENV NEXT_TELEMETRY_DISABLED 1
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-ENV NEXT_TELEMETRY_DISABLED 1
-
+# Build the application
 RUN npm run build
 
 # Production image, copy all the files and run next
