@@ -22,33 +22,34 @@ ARG NEXT_PUBLIC_SANITY_DATASET
 
 ENV NEXT_PUBLIC_SANITY_PROJECT_ID=$NEXT_PUBLIC_SANITY_PROJECT_ID
 ENV NEXT_PUBLIC_SANITY_DATASET=$NEXT_PUBLIC_SANITY_DATASET
+ENV NEXT_TELEMETRY_DISABLED 1
 
-# Debug information and build
+# Debug and build
 RUN echo "Node version: $(node -v)" && \
     echo "NPM version: $(npm -v)" && \
-    ls -la && \
-    npm run build && \
-    ls -la .next/
+    npm run build
 
-# Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy only necessary files
+# Copy necessary files
 COPY --from=builder /app/public ./public
 # COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 3000
-
-ENV PORT 3000
+# Cloud Run expects port 8080
+ENV PORT 8080
 ENV HOSTNAME "0.0.0.0"
 
+EXPOSE 8080
+
+# Start the server using the standalone output
 CMD ["node", "server.js"]
