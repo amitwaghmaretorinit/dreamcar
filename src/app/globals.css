@@ -46,3 +46,7 @@ p {
 a {
   @apply text-black hover:underline;
 }
+
+span {
+  @apply text-black;
+}
