@@ -26,16 +26,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <ThemeProvider>
-          <div className="flex min-h-screen flex-col">
-            <div className="container mx-auto flex-1 px-4">
-              <div className="flex justify-end py-4">
-                <ThemeToggle />
-              </div>
-              {children}
-            </div>
+          <div className="flex justify-end">
+            <ThemeToggle />
           </div>
+          {children}
+          
         </ThemeProvider>
       </body>
     </html>

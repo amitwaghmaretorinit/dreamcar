@@ -1,9 +1,13 @@
- "use client";
+"use client";
 
 import { useTheme } from "@/components/theme-provider";
+import { usePathname } from "next/navigation";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const pathname = usePathname();
+
+  if (pathname.includes("studio")) return null;
 
   return (
     <button
