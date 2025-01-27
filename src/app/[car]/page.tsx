@@ -26,7 +26,7 @@ export default async function CarPage({ params }: {
   return (
     <main className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">{carDetails.name}</h1>
+        <h1 className="text-3xl font-bold mb-6 title">{carDetails.name}</h1>
         
         {carDetails.image && (
           <div className="mb-8 rounded-lg overflow-hidden shadow-lg">

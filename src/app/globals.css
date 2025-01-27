@@ -5,52 +5,64 @@
 :root,
 .light {
   --background: #f8f9fa;
-  --foreground: #2d3748;
+  --foreground: black;  /* Red */
   --primary: #3b82f6;
   --primary-foreground: #ffffff;
   --muted: #edf2f7;
   --muted-foreground: #64748b;
+  --title: black;
+
 }
 
 .dark {
   --background: #0a0a0a;
-  --foreground: #ededed;
+  --foreground: black;  /* White */
   --primary: #3b82f6;
   --primary-foreground: #ffffff;
   --muted: #1f2937;
   --muted-foreground: #9ca3af;
+  --title: #ffffff;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    @apply bg-background;
+    color: var(--foreground);  /* Direct color application */
+    font-family: Arial, Helvetica, sans-serif;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .title {
+    color: var(--title) !important;  /* Force color application */
+    @apply text-4xl font-bold;
+    transition: color 0.3s ease;
+  }
+
+  h2 {
+    @apply text-foreground text-3xl font-semibold;
+  }
+
+  h3 {
+    @apply text-foreground text-2xl font-semibold;
+  }
+
+  p {
+    @apply text-foreground;
+  }
+
+  a {
+    @apply text-foreground hover:underline;
+  }
+
+  span {
+    @apply text-foreground;
+  }
+
+  li {
+    @apply text-foreground;
+  }
 }
 
-h1 {
-  @apply text-black text-4xl font-bold;
-}
-
-h2 {
-  @apply text-black text-3xl font-semibold;
-}
-
-h3 {
-  @apply text-black text-2xl font-semibold;
-}
-
-p {
-  @apply text-black;
-}
-
-a {
-  @apply text-black hover:underline;
-}
-
-span {
-  @apply text-black;
-}
-
-li {
-  @apply text-black;
+h1, h2, h3, p, a, span, li {
+  transition: color 0.3s ease;
 }
