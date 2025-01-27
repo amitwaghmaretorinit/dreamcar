@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <div className="flex justify-end">
+          <div className="flex justify-end mx-4 my-4">
             <ThemeToggle />
           </div>
           {children}
