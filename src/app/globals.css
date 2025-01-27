@@ -50,3 +50,7 @@ a {
 span {
   @apply text-black;
 }
+
+li {
+  @apply text-black;
+}
